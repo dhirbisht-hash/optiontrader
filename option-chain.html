@@ -136,7 +136,37 @@
         }
     </style>
 </head>
-
+<script>
+async function loadOptionChain() {
+    const url = "[api.theautotrender.com](https://api.theautotrender.com:5959/api/Index/call-put?category=Nifty&expiry=12-May-2026)";
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        console.log("API Loaded:", data);
+        const tbody = document.getElementById("option-table-body");
+        tbody.innerHTML = ""; // clear previous rows
+        data.forEach(row => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td class="call">${row.callOI}</td>
+                <td class="call">${row.callChangeOI}</td>
+                <td class="call">${row.callLTP}</td>
+                <td class="call">${row.callIV}</td>
+                <td class="strike">${row.strikePrice}</td>
+                <td class="put">${row.putIV}</td>
+                <td class="put">${row.putLTP}</td>
+                <td class="put">${row.putChangeOI}</td>
+                <td class="put">${row.putOI}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (e) {
+        console.error("API Error", e);
+        alert("Unable to load option chain data.");
+    }
+}
+loadOptionChain();
+</script>
 <body>
 
 <header>
@@ -193,47 +223,9 @@
         </thead>
 
         <tbody>
-            <tr>
-                <td class="call">123450</td>
-                <td class="call">+15200</td>
-                <td class="call">185.50</td>
-                <td class="call">12.5</td>
-
-                <td class="strike">24300</td>
-
-                <td class="put">10.8</td>
-                <td class="put">72.85</td>
-                <td class="put">+18900</td>
-                <td class="put">135400</td>
-            </tr>
-
-            <tr>
-                <td class="call">189200</td>
-                <td class="call">+22400</td>
-                <td class="call">142.75</td>
-                <td class="call">11.9</td>
-
-                <td class="strike">24350</td>
-
-                <td class="put">11.2</td>
-                <td class="put">55.45</td>
-                <td class="put">+12300</td>
-                <td class="put">112500</td>
-            </tr>
-
-            <tr>
-                <td class="call">245800</td>
-                <td class="call">+35600</td>
-                <td class="call">105.20</td>
-                <td class="call">11.4</td>
-
-                <td class="strike">24400</td>
-
-                <td class="put">10.4</td>
-                <td class="put">95.60</td>
-                <td class="put">+25100</td>
-                <td class="put">158200</td>
-            </tr>
+           <tbody id="option-table-body">
+    <!-- Filled automatically from API -->
+</tbody>
         </tbody>
     </table>
 </div>
