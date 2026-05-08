@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Option Chain</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+            background: #f7f9fc;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: #1a237e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: #90caf9;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        nav a:hover {
+            color: #90caf9;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: auto;
+            padding: 2rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Selectors */
+        .selectors {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        select {
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background: #fff;
+            font-size: 0.9rem;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #1a237e;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        th {
+            background: #f0f3fa;
+            padding: 0.7rem;
+            font-size: 0.85rem;
+            color: #444;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 0.7rem;
+            text-align: center;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 0.9rem;
+        }
+
+        tbody tr:hover {
+            background: #f6f9ff;
+        }
+
+        .strike {
+            background: #e8eaf6;
+            font-weight: bold;
+            color: #1a237e;
+        }
+
+        .call {
+            background: #e8f5e9;
+        }
+
+        .put {
+            background: #ffebee;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            background: #1a237e;
+            color: rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Options<span>Analyst</span></div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="option-chain.html">Option Chain</a></li>
+            <li><a href="#">OI Analysis</a></li>
+            <li><a href="#">Strategies</a></li>
+            <li><a href="#">Charts</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+
+    <div class="section-title">Option Chain</div>
+
+    <!-- Selectors -->
+    <div class="selectors">
+        <select>
+            <option>NIFTY</option>
+            <option>BANKNIFTY</option>
+            <option>FINNIFTY</option>
+        </select>
+
+        <select>
+            <option>08 May 2025</option>
+            <option>15 May 2025</option>
+            <option>22 May 2025</option>
+        </select>
+    </div>
+
+    <!-- Option Chain Table -->
+    <table>
+        <thead>
+            <tr>
+                <th colspan="4" style="color:#2e7d32;">CALLS</th>
+                <th>Strike</th>
+                <th colspan="4" style="color:#c62828;">PUTS</th>
+            </tr>
+            <tr>
+                <th>OI</th>
+                <th>Chg OI</th>
+                <th>LTP</th>
+                <th>IV</th>
+                <th></th>
+                <th>IV</th>
+                <th>LTP</th>
+                <th>Chg OI</th>
+                <th>OI</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td class="call">123450</td>
+                <td class="call">+15200</td>
+                <td class="call">185.50</td>
+                <td class="call">12.5</td>
+
+                <td class="strike">24300</td>
+
+                <td class="put">10.8</td>
+                <td class="put">72.85</td>
+                <td class="put">+18900</td>
+                <td class="put">135400</td>
+            </tr>
+
+            <tr>
+                <td class="call">189200</td>
+                <td class="call">+22400</td>
+                <td class="call">142.75</td>
+                <td class="call">11.9</td>
+
+                <td class="strike">24350</td>
+
+                <td class="put">11.2</td>
+                <td class="put">55.45</td>
+                <td class="put">+12300</td>
+                <td class="put">112500</td>
+            </tr>
+
+            <tr>
+                <td class="call">245800</td>
+                <td class="call">+35600</td>
+                <td class="call">105.20</td>
+                <td class="call">11.4</td>
+
+                <td class="strike">24400</td>
+
+                <td class="put">10.4</td>
+                <td class="put">95.60</td>
+                <td class="put">+25100</td>
+                <td class="put">158200</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer>
+    Option Chain • For educational use only
+</footer>
+
+</body>
+</html>
