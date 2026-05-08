@@ -14,7 +14,6 @@
             color: #333;
         }
 
-        /* Header */
         header {
             background: #1a237e;
             color: white;
@@ -22,34 +21,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-
-        .logo span {
-            color: #90caf9;
-        }
+        .logo { font-size: 1.4rem; font-weight: 700; }
+        .logo span { color: #90caf9; }
 
         nav ul {
             display: flex;
+            gap: 20px;
             list-style: none;
-            gap: 2rem;
         }
-
-        nav a {
-            color: rgba(255,255,255,0.9);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: 0.2s;
-        }
-
-        nav a:hover {
-            color: #90caf9;
-        }
+        nav a { color: #fff; text-decoration: none; }
 
         .container {
             max-width: 1300px;
@@ -57,83 +39,33 @@
             padding: 2rem;
         }
 
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #1a237e;
-            margin-bottom: 1.5rem;
-        }
-
-        .selectors {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-
-        select {
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            background: #fff;
-            font-size: 0.9rem;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #1a237e;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
         th {
-            background: #f0f3fa;
-            padding: 0.7rem;
-            font-size: 0.85rem;
-            color: #444;
+            background: #eef1f7;
+            padding: 8px;
             text-transform: uppercase;
         }
 
         td {
-            padding: 0.7rem;
+            padding: 8px;
             text-align: center;
-            border-bottom: 1px solid #f1f1f1;
-            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
         }
 
-        tbody tr:hover {
-            background: #f6f9ff;
-        }
+        .call { background: #e8f5e9; }
+        .put { background: #ffebee; }
+        .strike { background: #e8eaf6; font-weight: bold; }
 
-        .strike {
-            background: #e8eaf6;
-            font-weight: bold;
-            color: #1a237e;
-        }
+        tr:hover td { background: #f3f6ff; }
 
-        .call {
-            background: #e8f5e9;
-        }
-
-        .put {
-            background: #ffebee;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1rem;
-            margin-top: 2rem;
-            background: #1a237e;
-            color: rgba(255,255,255,0.8);
-        }
     </style>
-</head>
 
+</head>
 <body>
 
 <header>
@@ -142,32 +74,13 @@
         <ul>
             <li><a href="index.html">Dashboard</a></li>
             <li><a href="option-chain.html">Option Chain</a></li>
-            <li><a href="#">OI Analysis</a></li>
-            <li><a href="#">Strategies</a></li>
-            <li><a href="#">Charts</a></li>
         </ul>
     </nav>
 </header>
 
 <div class="container">
+    <h2>NIFTY Weekly Option Chain</h2>
 
-    <div class="section-title">Option Chain</div>
-
-    <div class="selectors">
-        <select>
-            <option>NIFTY</option>
-            <option>BANKNIFTY</option>
-            <option>FINNIFTY</option>
-        </select>
-
-        <select>
-            <option>08 May 2025</option>
-            <option>15 May 2025</option>
-            <option>22 May 2025</option>
-        </select>
-    </div>
-
-    <!-- Table -->
     <table>
         <thead>
             <tr>
@@ -180,7 +93,9 @@
                 <th>Chg OI</th>
                 <th>LTP</th>
                 <th>IV</th>
+
                 <th></th>
+
                 <th>IV</th>
                 <th>LTP</th>
                 <th>Chg OI</th>
@@ -188,50 +103,53 @@
             </tr>
         </thead>
 
-        <tbody id="option-table-body">
-            <!-- API injected rows -->
-        </tbody>
+        <tbody id="option-table-body"></tbody>
     </table>
 </div>
 
-<footer>
-    Option Chain • For educational use only
-</footer>
 
 <script>
 async function loadOptionChain() {
-    const url = "https://api.theautotrender.com:8085/api/Index/call-put?category=Nifty&expiry=12-May-2026";
+
+    const url = "[api.theautotrender.com](https://api.theautotrender.com:5959/api/Index/call-put?category=Nifty&expiry=12-May-2026)";
 
     try {
         const res = await fetch(url);
-        const data = await res.json();
+        const jsonData = await res.json();
 
+        const data = jsonData.data; // Your "data" array
         const tbody = document.getElementById("option-table-body");
         tbody.innerHTML = "";
 
-        data.forEach(row => {
-            const tr = document.createElement("tr");
+        data.forEach(item => {
 
-            tr.innerHTML = `
-                <td class="call">${row.callOI}</td>
-                <td class="call">${row.callChangeOI}</td>
-                <td class="call">${row.callLTP}</td>
-                <td class="call">${row.callIV}</td>
+            const strike = item.strike.value;
 
-                <td class="strike">${row.strikePrice}</td>
+            const call = item.OptionsData.call;
+            const put = item.OptionsData.put;
 
-                <td class="put">${row.putIV}</td>
-                <td class="put">${row.putLTP}</td>
-                <td class="put">${row.putChangeOI}</td>
-                <td class="put">${row.putOI}</td>
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td class="call">${call.oi_lakh.value}</td>
+                <td class="call">${call.oi_chg.value}</td>
+                <td class="call">${call.ltp.value}</td>
+                <td class="call">${call.iV}</td>
+
+                <td class="strike">${strike}</td>
+
+                <td class="put">${put.iV}</td>
+                <td class="put">${put.ltp.value}</td>
+                <td class="put">${put.oi_chg.value}</td>
+                <td class="put">${put.oi_lakh.value}</td>
             `;
 
-            tbody.appendChild(tr);
+            tbody.appendChild(row);
         });
 
-    } catch (e) {
-        console.error("API Error:", e);
-        alert("Unable to load option chain data.");
+    } catch (err) {
+        console.error("Error loading data:", err);
+        alert("Unable to load option chain data");
     }
 }
 
