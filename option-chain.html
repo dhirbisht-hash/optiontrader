@@ -57,7 +57,6 @@
             padding: 2rem;
         }
 
-        /* Section Title */
         .section-title {
             font-size: 1.4rem;
             font-weight: 600;
@@ -65,7 +64,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Selectors */
         .selectors {
             display: flex;
             gap: 1rem;
@@ -86,7 +84,6 @@
             border-color: #1a237e;
         }
 
-        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -136,37 +133,7 @@
         }
     </style>
 </head>
-<script>
-async function loadOptionChain() {
-    const url = "[api.theautotrender.com](https://api.theautotrender.com:5959/api/Index/call-put?category=Nifty&expiry=12-May-2026)";
-    try {
-        const res = await fetch(url);
-        const data = await res.json();
-        console.log("API Loaded:", data);
-        const tbody = document.getElementById("option-table-body");
-        tbody.innerHTML = ""; // clear previous rows
-        data.forEach(row => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td class="call">${row.callOI}</td>
-                <td class="call">${row.callChangeOI}</td>
-                <td class="call">${row.callLTP}</td>
-                <td class="call">${row.callIV}</td>
-                <td class="strike">${row.strikePrice}</td>
-                <td class="put">${row.putIV}</td>
-                <td class="put">${row.putLTP}</td>
-                <td class="put">${row.putChangeOI}</td>
-                <td class="put">${row.putOI}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-    } catch (e) {
-        console.error("API Error", e);
-        alert("Unable to load option chain data.");
-    }
-}
-loadOptionChain();
-</script>
+
 <body>
 
 <header>
@@ -186,7 +153,6 @@ loadOptionChain();
 
     <div class="section-title">Option Chain</div>
 
-    <!-- Selectors -->
     <div class="selectors">
         <select>
             <option>NIFTY</option>
@@ -201,7 +167,7 @@ loadOptionChain();
         </select>
     </div>
 
-    <!-- Option Chain Table -->
+    <!-- Table -->
     <table>
         <thead>
             <tr>
@@ -222,10 +188,8 @@ loadOptionChain();
             </tr>
         </thead>
 
-        <tbody>
-           <tbody id="option-table-body">
-    <!-- Filled automatically from API -->
-</tbody>
+        <tbody id="option-table-body">
+            <!-- API injected rows -->
         </tbody>
     </table>
 </div>
@@ -233,6 +197,46 @@ loadOptionChain();
 <footer>
     Option Chain • For educational use only
 </footer>
+
+<script>
+async function loadOptionChain() {
+    const url = "[api.theautotrender.com](https://api.theautotrender.com:5959/api/Index/call-put?category=Nifty&expiry=12-May-2026)";
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const tbody = document.getElementById("option-table-body");
+        tbody.innerHTML = "";
+
+        data.forEach(row => {
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                <td class="call">${row.callOI}</td>
+                <td class="call">${row.callChangeOI}</td>
+                <td class="call">${row.callLTP}</td>
+                <td class="call">${row.callIV}</td>
+
+                <td class="strike">${row.strikePrice}</td>
+
+                <td class="put">${row.putIV}</td>
+                <td class="put">${row.putLTP}</td>
+                <td class="put">${row.putChangeOI}</td>
+                <td class="put">${row.putOI}</td>
+            `;
+
+            tbody.appendChild(tr);
+        });
+
+    } catch (e) {
+        console.error("API Error:", e);
+        alert("Unable to load option chain data.");
+    }
+}
+
+loadOptionChain();
+</script>
 
 </body>
 </html>
