@@ -113,7 +113,6 @@ async function loadOptionChain() {
 
     const url = "[api.theautotrender.com](https://api.theautotrender.com:5959/api/Index/call-put?category=Nifty&expiry=12-May-2026)";
 
-    try {
         const res = await fetch(url);
         const jsonData = await res.json();
 
@@ -147,10 +146,7 @@ async function loadOptionChain() {
             tbody.appendChild(row);
         });
 
-    } catch (err) {
-        console.error("Error loading data:", err);
-        alert("Unable to load option chain data");
-    }
+    
 }
 
 loadOptionChain();
